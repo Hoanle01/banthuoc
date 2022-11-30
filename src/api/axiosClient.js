@@ -6,7 +6,7 @@ import { logoutCart } from 'features/Cart/cartSlice';
 import { toast } from 'react-toastify';
 
 const axiosClient = axios.create({
-  baseURL: 'https://phanolink.herokuapp.com/api/',
+  baseURL: 'http://localhost:3000/api/v1',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -21,15 +21,15 @@ axiosClient.interceptors.request.use(
       '/user/user-profile',
       '/user/change-profile',
       '/user/refresh',
-      '/user/favorites',
-      '/user/user-profile?with=address',
+      '/favorite',
+      '/user/user-profile?width=address',
       '/user/change-address',
-      '/user/orders',
+      '/order',
       '/is-favorite',
     ];
 
     const dynamicURL = [
-      '/user/favorites/',
+      '/favorite',
     ]
     const dynamicURLNeedToken = dynamicURL.some(item => {
       return config.url.includes(item)
@@ -37,7 +37,7 @@ axiosClient.interceptors.request.use(
 
     if (URLS.includes(config.url) || dynamicURLNeedToken) {
       const token = localStorage.getItem(StorageKeys.TOKEN);
-      config.headers.Authorization = token ? `Bearer ${token}` : '';
+      config.headers.token= token ? `${token}` : '';
     }
 
     const URLSADMIN = [
@@ -53,8 +53,8 @@ axiosClient.interceptors.request.use(
 
     if (dynamicURLAdminNeedToken) {
       const admin = JSON.parse(localStorage.getItem(StorageKeys.ADMIN));
-      const token = admin.access_token;
-      config.headers.Authorization = token ? `Bearer ${token}` : '';
+      const token = admin.token;
+      config.headers.token= token ? `${token}` : '';
     }
 
     return config;
@@ -78,24 +78,7 @@ axiosClient.interceptors.response.use(
     const { config, status } = error.response;
 
 
-    // if (status === 401 && !config._retry) {
-    //   config._retry = true;
-    //   try {
-    //     const token = localStorage.getItem(StorageKeys.TOKEN);
-    //     console.log(token);
-    //     const res = await axios.post('https://phanolink.herokuapp.com/api/user/refresh', {
-    //       headers: {
-    //         Authorization: `Bearer ${token}`
-    //       },
-    //     });
-    //     console.log(res.data.access_token);
-    //     const action = refreshToken(res.data.access_token);
-    //     dispatch(action);
-    //     return axiosClient(config);
-    //   } catch (err) {
-    //     return Promise.reject(err);
-    //   }
-    // }
+
 
     if (status === 401) {
       toast.warn('Vui lòng đặng nhập lại!', {

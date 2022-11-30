@@ -9,29 +9,37 @@ function EditProductContainer({ data, showLoading, hideLoading }) {
   const [product, setProduct] = useState();
 
   const mapData = (d) => {
+
     const dataMap = {
       name: d.name,
       price: d.price,
       content: d.content,
       description: d.description,
-      category_id: d.category.id,
+      category_id: d.index_categories,
       feature: d.feature === 'Yes' ? 1 : 0,
-      sale: d.discount === 'No' ? 0 : parseFloat(d.discount.slice(0, -1) / 100),
-      images: d.images[0].url,
+      
+      sale: d.discount === 'No' ? 0 : parseFloat(d.discount.slice(0, -1)),
+     
+      sale: d.discount ,
+      images: d.image,
+
       date_update: d.date_update,
-    };
+    }; 
+    console.log("124",typeof((dataMap.sale)))
     setProduct(dataMap);
   };
 
   useEffect(() => {
+   
     data && mapData(data);
   }, [data]);
 
   const handleSubmit = async (formData) => {
+    console.log(formData )
     showLoading('top');
     try {
       const rs = await adminApi.editProduct(data.id, formData);
-      if (rs.status === 200 && rs.success) {
+      if (rs.status === 200 && rs.success===true) {
         toast.success('Chỉnh sửa thành công!');
       }
     } catch (err) {

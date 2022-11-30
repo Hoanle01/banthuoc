@@ -11,6 +11,7 @@ import AdminUser from './components/AdminUser';
 function AdminPage() {
   const { path } = useRouteMatch();
   const admin = useSelector((state) => state.admin.current);
+  console.log(admin)
   if (!admin) return <AdminLogin />;
   return (
     <section className='admin'>

@@ -25,7 +25,7 @@ function UserLocation({ hideLoading, showLoading }) {
     const newInfo = {
       name: data.name,
       email: data.email,
-      phone: data.phone,
+      phone: data.numberPhone,
     };
     setInfo(newInfo);
 

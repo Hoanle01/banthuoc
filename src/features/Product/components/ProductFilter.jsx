@@ -3,20 +3,20 @@ import React from 'react';
 function ProductFilter({ onChange, params }) {
   const handleSaleClick = () => {
     if (!onChange) return;
-    if (params['sort-by-sale'] === 'true') {
+    if (params['sortbysale'] === 'true') {
       const newParams = { ...params };
-      delete newParams['sort-by-sale'];
+      delete newParams['sortbysale'];
       onChange(newParams);
-    } else onChange({ ...params, 'sort-by-sale': true });
+    } else onChange({ ...params, 'sortbysale': true });
   };
 
   const handleNewProductClick = () => {
     if (!onChange) return;
-    if (params['date-update'] === 'true') {
+    if (params['dateupdate'] === 'true') {
       const newParams = { ...params };
-      delete newParams['date-update'];
+      delete newParams['dateupdate'];
       onChange(newParams);
-    } else onChange({ ...params, 'date-update': true });
+    } else onChange({ ...params, 'dateupdate': true });
   };
 
   const handleSortASCClick = () => {
@@ -50,13 +50,13 @@ function ProductFilter({ onChange, params }) {
       <span>Ưu tiên xem: &nbsp;</span>
       <ul>
         <li
-          className={params['sort-by-sale'] === 'true' ? 'active' : ''}
+          className={params['sortbysale'] === 'true' ? 'active' : ''}
           onClick={handleSaleClick}
         >
           Khuyến Mãi
         </li>
         <li
-          className={params['date-update'] === 'true' ? 'active' : ''}
+          className={params['dateupdate'] === 'true' ? 'active' : ''}
           onClick={handleNewProductClick}
         >
           Hàng mới

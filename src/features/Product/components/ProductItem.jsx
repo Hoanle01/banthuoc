@@ -11,15 +11,18 @@ import { toast } from 'react-toastify';
 
 function ProductItem({ product }) {
   const isPromo = product.discount !== 'No';
+  console.log(product.id)
   const price = parseInt(product.price);
+  
   const history = useHistory();
   const user = useSelector((state) => state.user.current);
   const dispatch = useDispatch();
   let discountPercent;
   let priceAfterDiscount;
   if (isPromo && product) {
-    discountPercent = parseInt(product.discount.slice(0, -1)) / 100;
+    discountPercent = parseInt(product?.discount?.slice(0, -1)) / 100;
     priceAfterDiscount = parseInt(price) - parseInt(price) * discountPercent;
+ 
   }
 
   const handleAddToCart = () => {
@@ -39,10 +42,11 @@ function ProductItem({ product }) {
           price,
           priceAfterDiscount: priceAfterDiscount,
           name: product.name,
-        });
+        }); 
       }
       dispatch(action);
       toast.success('Thêm vào giỏ hàng thành công!');
+     
       return;
     }
     toast.warn('Đăng nhập để thêm vào giỏ hàng!');
@@ -51,31 +55,41 @@ function ProductItem({ product }) {
   };
 
   const handleAddToFavorite = () => {
-    if (user) {
-      (async function () {
-        try {
-          const res = await userApi.addFavorites({
-            product_id: product.id,
-          });
-          if (res.status === 200 && res.success === true) {
-            toast.success('Đã yêu thích sản phẩm');
-          }
-        } catch (error) {
-          toast.warn('Sản phẩm đã yêu thích sẵn');
+    if(user){
+    (async function () {
+ 
+      try {
+        const res = await userApi.addFavorites({
+          index_product: product.id,
+        });
+     
+        if (res.status === 200 && res.success=== true) {
+   
+          toast.success('Đã yêu thích sản phẩm');
         }
-      })();
-      return;
-    }
+      } catch (error) {
+        toast.warn('Sản phẩm đã yêu thích sẵn');
+
+
+      
+      }
+  
+    })();
+  
+   
+    return;
+  }
     toast.warn('Đăng nhập để thêm sản phẩm yêu thích!');
     const action = openModal();
     dispatch(action);
   };
+  
 
   return (
     <Link
       onClick={(e) => {
         e.preventDefault();
-        history.push(`/product/${product.id}`);
+         history.push(`/product/${product.id}`);
       }}
       to={`/product/${product.id}`}
       className='product__item discount'
@@ -83,10 +97,11 @@ function ProductItem({ product }) {
       <div className='item__header'>
         {isPromo && (
           <span className='header__discount'>{product.discount}</span>
+          
         )}
         <img
           className='header__product'
-          src={product?.images[0].url || medicineImg}
+          src={product.image || medicineImg}
           alt='medicine logo'
         />
         <img

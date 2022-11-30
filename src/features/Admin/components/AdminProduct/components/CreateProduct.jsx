@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 function CreateProduct(props) {
   const {showLoading, hideLoading} = props;
   const handleSubmit = async (formData) => {
+    console.log("123245",formData)
     showLoading('top');
     try {
       const res = await adminApi.addProduct(formData);

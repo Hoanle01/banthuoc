@@ -10,17 +10,21 @@ export const register = createAsyncThunk('auth/register', async (payload) => {
 
 export const login = createAsyncThunk('auth/login', async (payload) => {
   //call API to login
-  const { data } = await userApi.login(payload);
+const data = await userApi.login(payload);
+
   const user = {
-    name: data.user_name,
-    id: data.user_id,
-    access_token: data.access_token,
-    addressId: null,
+    name: data.name,
+    id: data.id,
+    token: data.token,
+  
   }
-  //save data to local storage
-  localStorage.setItem(StorageKeys.TOKEN, data.access_token);
+
+ 
+  // //save data to local storage
+  localStorage.setItem(StorageKeys.TOKEN, data.token);
   localStorage.setItem(StorageKeys.USER, JSON.stringify(user));
-  return data;
+
+   return data;
 });
 
 const initialState = {
@@ -49,7 +53,7 @@ export const userSlice = createSlice({
     },
     refreshToken: (state, action) => {
       // sendToken
-      state.current.access_token = action.payload;
+      state.current.token= action.payload;
       localStorage.setItem(StorageKeys.USER, JSON.stringify(action.payload));
     },
     addAddressId: (state, action) => {
@@ -64,9 +68,9 @@ export const userSlice = createSlice({
   extraReducers: {
     [login.fulfilled]: (state, action) => {
       const user = {
-        name: action.payload.user_name,
-        id: action.payload.user_id,
-        access_token: action.payload.access_token,
+        name: action.payload.name,
+        id: action.payload.id,
+        token: action.payload.token,
       }
       state.current = user;
     },

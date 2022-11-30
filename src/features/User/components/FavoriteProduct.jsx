@@ -62,7 +62,7 @@ function FavoriteProduct({ hideLoading, showLoading }) {
               <ProductList data={productList} />
               <ReactPaginate
                 forcePage={parseInt(queryParams.page) - 1}
-                pageCount={pagination.totalPages}
+                pageCount={pagination.totalPage}
                 onPageChange={handlePageClick}
                 activeClassName='active'
                 containerClassName='product-pagi'

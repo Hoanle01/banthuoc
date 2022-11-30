@@ -26,8 +26,9 @@ const STATUS_ORDER = [
 function EditOrderForm(props) {
   const [orderState, setOrderState] = useState();
   const { data } = props;
+   console.log("orderForm",data.userOrder[0])
 
-  const typeCount = data.order_details.length;
+  const typeCount = data.userOrder[1].order_detail.length;
 
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
@@ -40,11 +41,12 @@ function EditOrderForm(props) {
   }
   const handleSubmitStatus = () => {
     if (!props.onSubmit) return;
-    props.onSubmit(data.id, orderState);
+    props.onSubmit(data.userOrder[0].id, orderState);
   };
   if (!data) return;
-  const productList = data.order_details.map((item, index) => {
-    const product = item.product;
+  const productList = data.userOrder[1].order_detail.map((item, index) => {
+    console.log(item)
+    const product = item.product1;
     const quantity = item.product_quantity;
     const discount =
       product.discount === 'No'
@@ -74,7 +76,7 @@ function EditOrderForm(props) {
           </p>
         </div>
         <p>
-          <img width='120px' src={product?.images[0]?.url} alt='' />
+          <img width='120px' src={product?.image} alt='' />
         </p>
       </div>
     );
@@ -101,38 +103,38 @@ function EditOrderForm(props) {
         </label>
         <label>
           Họ tên:
-          <span>&nbsp;{data.user.name}</span>
+          <span>&nbsp;{data.userOrder[0].user.name}</span>
         </label>
         <label>
           Số điện thoại:
-          <span>&nbsp;{data.user.phone}</span>
+          <span>&nbsp;{data.userOrder[0].user.numberPhone}</span>
         </label>
         <label>
           Email:
-          <span>&nbsp;{data.user.email}</span>
+          <span>&nbsp;{data.userOrder[0].user.email}</span>
         </label>
         <label>
           Địa chỉ:
-          <span>&nbsp;{data.user.address.street_name}</span>
+          <span>&nbsp;{data.userOrder[0].address1.street_name}</span>
         </label>
         <label>
           Phường/Xã:
-          <span>&nbsp;{data.user.address.ward}</span>
+          <span>&nbsp;{data.userOrder[0].address1.ward}</span>
         </label>
         <label>
           Quận/Huyện:
-          <span>&nbsp;{data.user.address.district}</span>
+          <span>&nbsp;{data.userOrder[0].address1.district}</span>
         </label>
         <label>
           Tỉnh/TP:
-          <span>&nbsp;{data.user.address.province}</span>
+          <span>&nbsp;{data.userOrder[0].address1.province}</span>
         </label>
         {productList}
         <div>
           <p className='item'>
             Tổng số: &nbsp;
             <span>
-              {data.order_details.reduce(
+              {data.userOrder[1].order_detail.reduce(
                 (acc, item) => acc + item.product_quantity,
                 0
               )}
@@ -144,7 +146,7 @@ function EditOrderForm(props) {
           <p className='item total'>
             Tổng số tiền: &nbsp;
             <span>
-              {data.total.toLocaleString('it-IT', {
+              {data.userOrder[0].total.toLocaleString('it-IT', {
                 style: 'currency',
                 currency: 'VND',
               })}
@@ -160,7 +162,7 @@ function EditOrderForm(props) {
       >
         <label>Trạng thái đơn hàng: </label>
         <Select
-          defaultValue={data.status}
+          defaultValue={data.userOrder[0].status}
           style={{ minWidth: '120px' }}
           size='large'
           onChange={handleChange}

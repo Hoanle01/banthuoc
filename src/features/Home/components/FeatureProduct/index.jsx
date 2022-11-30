@@ -51,7 +51,7 @@ function FeatureProduct() {
         <div className='feature-product__content'>
           <div className='feature-product__top'>
             <img src={iconFeatureProductBanner} alt='' />
-            <span className='feature-product__title'>Sản Phẩm Nổi Bật</span>
+            <span className='feature-product__title'>Khuyến Mãi Hot</span>
           </div>
           <div className='feature-product__main'>
             {loading ? (
@@ -64,7 +64,7 @@ function FeatureProduct() {
               <Slider {...settings} className='feature-product__list'>
                 <div className='feature-product__container'>
                   {hotProductList.slice(0, 4).map((product) => {
-                    const url = product?.images[0]?.url;
+                    const url = product?.image;
                     return (
                       <Link
                         key={product.id}
@@ -78,7 +78,7 @@ function FeatureProduct() {
                 </div>
                 <div className='feature-product__container'>
                   {hotProductList.slice(4, 8).map((product) => {
-                    const url = product?.images[0]?.url;
+                    const url = product?.image;
                     return (
                       <Link
                         key={product.id}
@@ -92,7 +92,7 @@ function FeatureProduct() {
                 </div>
                 <div className='feature-product__container'>
                   {hotProductList.slice(8, 12).map((product) => {
-                    const url = product?.images[0]?.url;
+                    const url = product?.image;
                     return (
                       <Link
                         key={product.id}

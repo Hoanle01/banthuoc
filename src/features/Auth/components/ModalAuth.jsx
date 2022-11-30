@@ -33,7 +33,7 @@ function ModalAuth() {
         </div>
       </div>
       <div className='content'>
-        {mode === MODE.LOGIN ? <Login /> : <Register setMode={setMode} />}
+        {mode === MODE.LOGIN ? <Login /> :   <Register setMode={setMode} />}
       </div>
     </div>
   );

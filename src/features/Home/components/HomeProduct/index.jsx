@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 
 function HomeProduct(props) {
   const [productList, setProductList] = useState([]);
+  console.log(productList)
   const [loading, setLoading] = useState(true);
   const mouted = useRef(true);
   const isLoaded = useRef(false);
@@ -20,7 +21,8 @@ function HomeProduct(props) {
       (async function () {
         setLoading(true);
         try {
-          const { data } = await productApi.getProductList();
+          const  {data}  = await productApi.getProductList();
+          console.log(data)
           if (mouted.current) setProductList(data);
         } catch (error) {
           // console.log(error);

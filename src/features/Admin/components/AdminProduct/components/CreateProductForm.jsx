@@ -14,8 +14,9 @@ import { convertToRaw } from 'draft-js';
 function CreateProductForm(props) {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [imgProduct, setImgProduct] = useState();
-  const imgRef = useRef();
-  const [errorImage, setErrorImage] = useState(null);
+  console.log("image",imgProduct)
+
+ 
   const schema = yup.object().shape({
     name: yup.string().required('Please enter product name'),
     price: yup
@@ -27,7 +28,8 @@ function CreateProductForm(props) {
       .number()
       .required('Please enter product category')
       .typeError('Please enter product category'),
-    feature: yup
+      
+      feature: yup
       .number()
       .required('Please enter product feature')
       .typeError('Please enter product feature'),
@@ -37,6 +39,7 @@ function CreateProductForm(props) {
       .typeError('Please enter product feature')
       .max(1)
       .min(0),
+    
   });
 
   const form = useForm({
@@ -44,70 +47,65 @@ function CreateProductForm(props) {
       name: '',
       price: '',
       content: '',
-      category_id: 1,
+      category_id: 2,
+   
       feature: 0,
       sale: 0,
+
     },
     resolver: yupResolver(schema),
   });
 
-  // console.log(draftToHtml(convertToRaw(editorState.getCurrentContent())));
+   console.log(draftToHtml(convertToRaw(editorState.getCurrentContent())));
 
   // const handleImgChange = () => {
   //   const file = imgRef.current.files[0];
   // };
 
-  const handleInputImgChange = () => {
-    const file = imgRef.current.files[0];
-    file.preview = URL.createObjectURL(file);
-    setImgProduct(file);
-  };
 
-  useEffect(() => {
-    return () => {
-      imgProduct && URL.revokeObjectURL(imgProduct.preview);
-    };
-  }, [imgProduct]);
+
+
 
   const handleSubmit = (values) => {
-    const file =
-      imgRef.current && imgRef.current.files && imgRef.current.files[0];
-    if (!file) {
-      setErrorImage('Please enter product image');
-      return;
-    }
+
+    console.log("content",values.intendedFor)
+
     const formData = new FormData();
     formData.append('name', values.name);
+    
     formData.append('price', values.price);
     formData.append('content', values.content);
     formData.append(
       'description',
+     
       draftToHtml(convertToRaw(editorState.getCurrentContent()))
     );
-    formData.append('category_id', values.category_id);
-    formData.append('feature', values.feature);
-    formData.append('sale', values.sale);
-    formData.append('images', imgRef.current.files[0]);
+    formData.append('index_categories', values.category_id);
+    formData.append('feature', values.feature===1?"Yes":"No");
+    formData.append('discount', values.sale===0?'No':`${values.sale*100}%`);
+    formData.append('products', imgProduct);
     if (!props.onSubmit) return;
+    console.log("formdata",formData)
     props.onSubmit(formData);
     form.reset({
       name: '',
       price: '',
       content: '',
-      category_id: 1,
+      category_id: 2,
       feature: 0,
+     
       sale: 0,
     });
-    imgRef.current.value = '';
+    //  setImgProduct = 0
     setEditorState(EditorState.createEmpty());
     setImgProduct(null);
   };
   return (
     <div className='create-product'>
       <h3>Tạo mới sản phẩm</h3>
-      <form onSubmit={form.handleSubmit(handleSubmit)}>
+      <form onSubmit={form.handleSubmit(handleSubmit)}enctype="multipart/form-data" method="POST">
         <InputField
-          placeholder='Phong tê thấp Bà Giằng'
+          placeholder=''
           name='name'
           form={form}
           label='Nhập tên sản phẩm'
@@ -119,7 +117,7 @@ function CreateProductForm(props) {
           label='Nhập giá sản phẩm'
         />
         <TextAreaField
-          placeholder='Công Dụng: Phong tê thấp Bà Giằng ...'
+          placeholder=''
           name='content'
           form={form}
           label='Nhập nội dung sản phẩm'
@@ -130,12 +128,13 @@ function CreateProductForm(props) {
           onChange={(values) => setEditorState(values)}
         />
         <CategoryField label='Chọn danh mục' form={form} name='category_id' />
-        <GenderField
+        
+          <GenderField
           label='Nổi bật'
           form={form}
           name='feature'
           title={['Có', 'Không']}
-        />
+        />  
         <InputField
           placeholder='0.15'
           name='sale'
@@ -151,29 +150,17 @@ function CreateProductForm(props) {
         >
           <p>Chọn ảnh</p>
           <input
-            ref={imgRef}
+          
             type='file'
             id='img'
             name='img'
-            accept='image/*'
+        
             style={{
               cursor: 'pointer',
             }}
-            onChange={handleInputImgChange}
+            onChange={(e)=>setImgProduct(e.target.files[0])}
           />
-          {imgProduct && <img width={'25%'} src={imgProduct.preview} alt='' />}
-          {errorImage && (
-            <span
-              style={{
-                fontSize: '12px',
-                margin: '6px 0 0',
-                display: 'block',
-                color: '#ff0000',
-              }}
-            >
-              {errorImage}
-            </span>
-          )}
+          
         </div>
         <button
           style={{

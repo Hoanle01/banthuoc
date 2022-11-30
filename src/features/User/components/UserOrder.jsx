@@ -18,6 +18,7 @@ function UserOrder({ hideLoading, showLoading }) {
   const location = useLocation();
   const history = useHistory();
   const [orderList, setOrderList] = useState(null);
+  console.log(orderList)
   const [pagination, setPagination] = useState({});
   const [loading, setLoading] = useState(true);
   const queryParams = useMemo(() => {
@@ -40,36 +41,45 @@ function UserOrder({ hideLoading, showLoading }) {
   };
 
   const formatData = useCallback((dataList) => {
+    
+  
     const newOrder = dataList.map((item) => {
+     console.log("1345",item.userOrder[2].order_detail[0])
       const newData = {
-        id: item.id,
-        dateOder: item.date_order,
-        product: item.order_details.reduce((acc, i, index) => {
-          if (index === item.order_details.length - 1)
-            return acc + i.product.name + ' (Số lượng: ' + i.product_quantity + ').';
-          return acc + i.product.name + ' (Số lượng: ' + i.product_quantity + '), ';
+        id:item.userOrder[0].id,
+        dateOder: item.userOrder[0].createdAt,
+        product: item.userOrder[2].order_detail.reduce((acc, i, index) => {
+          
+          if (index === item.userOrder[2].order_detail.length - 1)
+         
+            return acc + i.product1.name + ' (Số lượng: ' + i.product_quantity + ').';
+          return acc + i.product1.name + ' (Số lượng: ' + i.product_quantity + '), ';
         }, ''),
         address:
-          item.address.street_name +
+          item.userOrder[1].address[0].street_name +
           ' ' +
-          item.address.ward +
+          item.userOrder[1].address[0].ward +
           ' ' +
-          item.address.district +
+          item.userOrder[1].address[0].district +
           ' ' +
-          item.address.province,
-        price: item.total,
+          item.userOrder[1].address[0].province,
+        price: item.userOrder[0].total,
         status:
-          item.status === 1
+          item.userOrder[0].status === 1
             ? statusOrder.PENDING
-            : item.status === 2
+            : item.userOrder[0].status === 2
             ? statusOrder.PROCESSING
-            : item.status === 3
+            : item.userOrder[0].status === 3
             ? statusOrder.COMPLETED
             : statusOrder.DECLINE,
       };
+     
       return newData;
     });
+
+  console.log('haxa',newOrder )
     setOrderList(newOrder);
+
   }, []);
 
   useEffect(() => {
@@ -78,8 +88,9 @@ function UserOrder({ hideLoading, showLoading }) {
       setLoading(true);
       try {
         const rs = await userApi.getOrders(queryParams);
+         console.log("mẻt",rs)  
         rs.data && formatData(rs.data);
-        setPagination(rs.pagination);
+        // setPagination(rs.pagination);
       } catch (err) {
         // console.log(err);
       }
@@ -116,7 +127,7 @@ function UserOrder({ hideLoading, showLoading }) {
         </ul>
       )}
 
-      {loading ? (
+      {/* {loading ? (
         <Skeleton
           style={{ float: 'right', marginRight: '2.5%', marginTop: '20px' }}
           height={20}
@@ -132,7 +143,7 @@ function UserOrder({ hideLoading, showLoading }) {
           nextLabel='>'
           previousLabel='<'
         />
-      )}
+      )} */}
     </div>
   );
 }

@@ -17,7 +17,7 @@ function withLoading(WrappedComponent) {
     const hideLoading = () => {
       document.body.classList.remove('loading-data');
       document.body.classList.remove('top');
-      scrollToTop();
+      // scrollToTop();
     };
 
     return (

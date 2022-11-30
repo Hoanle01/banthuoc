@@ -1,10 +1,17 @@
 import Footer from 'components/Footer';
 import Header from 'components/Header';
 import AdminPage from 'features/Admin';
-import React, { Fragment, Suspense } from 'react';
+import FeatureProduct from 'features/Home/components/FeatureProduct';
+import HomeProduct from 'features/Home/components/HomeProduct';
+import HotPromotion from 'features/Home/components/HotPromotion';
+import SlideHome from 'features/Home/components/SlideHome';
+import ProductList from 'features/Product/components/ProductList';
+import ProductPage from 'features/Product/page/ProductPage';
+//import Home from 'features/Home';
+import React, { Fragment, Suspense } from 'react';             
 import { Route, Switch } from 'react-router';
 
-const Home = React.lazy(() => import('features/Home'));
+ const Home = React.lazy(() => import('features/Home'));
 const Cart = React.lazy(() => import('features/Cart'));
 const Product = React.lazy(() => import('features/Product'));
 const User = React.lazy(() => import('features/User'));
@@ -17,16 +24,23 @@ function App() {
         <Switch>
           <Route path='/admin' component={AdminPage} />
           <Route>
-            <Header />
+         <Header />
+           
+            {/* <SlideHome/>
+           /
+            <HotPromotion/>
+            <FeatureProduct/> <HomeProduct/>
+            <ProductPage/> */}
             <main>
               <Switch>
-                <Route path='/' exact component={Home} />
-                <Route path='/cart' component={Cart} />
+              <Route path='/' exact component={Home} />  
                 <Route path='/product' component={Product} />
-                <Route path='/user' component={User} />
-                <Route component={NotFound} />
+              <Route path='/cart' component={Cart} />
+                
+                  <Route path='/user' component={User} />
+                 {/*<Route component={NotFound} />*/}
               </Switch>
-            </main>
+            </main> 
             <Footer />
           </Route>
         </Switch>

@@ -14,7 +14,7 @@ function SideBarProduct(props) {
   useEffect(() => {
     (async function () {
       try {
-        const { data } = await categoryApi.getCategories();
+        const  data  = await categoryApi.getCategories();
         setCategoryList(data);
       } catch (error) {}
     })();
@@ -27,14 +27,14 @@ function SideBarProduct(props) {
   }, [location.search]);
 
   const handleCategoryClick = (id) => {
-    if(location.pathname + location.search === `/product?category=${id}`) return;
+    if(location.pathname + location.search === `/product?index_categories=${id}`) return;
     history.push({
       pathname: '/product',
-      search: `?category=${id}`,
+      search: `?index_categories=${id}`,
     });
   };
   const handleAll = () => {
-    if(location.pathname + location.search === '/product') return;
+    if(location.pathname + location.name === '/product') return;
     history.push('/product');
   };
   
@@ -50,7 +50,7 @@ function SideBarProduct(props) {
         >
           Tất cả
         </div>
-        {categoryList.map((item) => (
+        {categoryList?.map((item) => (
           <div
             onClick={() => handleCategoryClick(item.id)}
             key={item.id}

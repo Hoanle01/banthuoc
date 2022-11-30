@@ -14,8 +14,11 @@ function CartTotal({ showLoading, hideLoading }) {
   const path = useRouteMatch();
   const history = useHistory();
   const price = useSelector(cartTotalSelector);
+
   const discount = useSelector(cartDiscountSelector);
+
   const user = useSelector((state) => state.user.current);
+  console.log(user)
   const cart = useSelector((state) => state.cart.cartItems);
   const [isConfirm, setIsConfirm] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -56,11 +59,14 @@ function CartTotal({ showLoading, hideLoading }) {
         payment_method: 'Cash on Delivery',
         status: 1,
         address_id: user.addressId,
-        products: [...cartTotal],
+        products:[...cartTotal],
+        
+        
       };
       showLoading();
       try {
         const rs = await userApi.order(dataSend);
+        
         if (rs.status === 200) {
           const action = paymentSuccess();
           dispatch(action);

@@ -15,9 +15,10 @@ function Login({showLoading, hideLoading}) {
       const action = login(values);
       const resultAction = await dispatch(action);
       const res = unwrapResult(resultAction);
-      if (res.user_id) {
+      
+      if (res.id) {
         dispatch(closeModal());
-        dispatch(changeUserId(res.user_id));
+        dispatch(changeUserId(res.id));
       }
       toast.success('Đặng nhập thành công!');
     } catch (error) {

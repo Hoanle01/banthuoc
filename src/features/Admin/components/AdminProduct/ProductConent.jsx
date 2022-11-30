@@ -2,6 +2,7 @@ import { Button, Input, Tag } from 'antd';
 import adminApi from 'api/adminApi';
 import { adminLogout } from 'features/Admin/adminSlice';
 import AdminTable from 'features/Admin/common/AdminTable';
+import moment from 'moment';
 import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -12,21 +13,23 @@ function ProductConent(props) {
   const [loading, setLoading] = useState(true);
   const [productList, setProductList] = useState([]);
   const [data, setData] = useState([]);
+  console.log("data",data)
   const dispatch =  useDispatch();
 
   const mapData = useCallback((data) => {
     const newProductList = data.map((item) => {
+      console.log(item.category.name)
       const dataMap = {
         key: item.id,
         id: item.id,
         name: item.name,
-        content: item.content.substring(0, 100) + ' ...',
-        date_update: item.date_update,
+        description: item.description,
+      date_update: item.updatedAt,
         price: item.price,
-        image: item.images[0].url,
+        image: item.image,
         tags: [item.category.name],
-        discount: item.discount,
-      };
+         discount: item.discount,
+       };
       if (item.feature === 'Yes') dataMap.tags.push('Nổi bật');
       return dataMap;
     });
@@ -38,7 +41,8 @@ function ProductConent(props) {
     setLoading(true);
     try {
       const res = await adminApi.getAllProduct();
-      if (res.status === 200 && res.success === true) {
+      console.log(res)
+      if (res.status==200 && res.success==true) {
         mapData(res.data);
         setData(res.data);
       }
@@ -112,8 +116,8 @@ function ProductConent(props) {
     },
     {
       title: 'Nội dung',
-      dataIndex: 'content',
-      key: 'content',
+      dataIndex: 'description',
+      key: 'description ',
       width: 250,
     },
     {
@@ -163,14 +167,15 @@ function ProductConent(props) {
         return a.date_update - b.date_update;
       },
       render: (date) => {
+        console.log("date",date)
         const _date = [
-          new Date(date * 1000).toLocaleTimeString(),
-          new Date(date * 1000).toLocaleDateString(),
+          moment(date).format('DD-MM-YYYY hh:mm:ss')
+          
         ];
         return (
           <Fragment>
             <p style={{ textAlign: 'center' }}>{_date[0]}</p>
-            <p style={{ textAlign: 'center' }}>{_date[1]}</p>
+            
           </Fragment>
         );
       },
@@ -261,6 +266,7 @@ function ProductConent(props) {
       key: 'action',
       render: (i) => {
         const editData = data.find(item => item.id === i.id); 
+        console.log("editData",editData)
         return (
           <div>
             {/* <EditProduct onEdit={() => {}} data={editData} /> */}

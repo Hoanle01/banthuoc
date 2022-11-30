@@ -11,7 +11,7 @@ function EditOrderContainer(props) {
       const res = await adminApi.editStatusOrder(id, {
         status: orderStatus,
       });
-      if (res.status === 200 && res.success) {
+      if (res.status === 200 && res.success===true) {
         toast.success('Thay đổi thành công');
       }
     } catch (error) {

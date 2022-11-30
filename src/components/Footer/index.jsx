@@ -4,7 +4,8 @@ import fbIcon from 'assets/img/fb-icon.svg';
 import ggIcon from 'assets/img/google-icon.svg';
 import mailIcon from 'assets/img/mail-icon.svg';
 import percentIcon from 'assets/img/percent-icon.svg';
-import phanoLinkLogoColor from 'assets/img/phanolink-logo-color.svg';
+import headerLogo from 'assets/img/header-logo.png'
+
 import phoneIcon from 'assets/img/phone-icon.svg';
 import presentIcon from 'assets/img/present-icon.svg';
 import transactionIcon from 'assets/img/transaction-icon.svg';
@@ -27,7 +28,7 @@ function Footer() {
           <p>Sản phẩm chính hãng</p>
         </div>
         <div className='commit__block express'>
-          <img src={expressIcon} alt='express logo' />
+          <img src={headerLogo}  alt='express logo' />
           <p>Giao hàng toàn quốc</p>
         </div>
         <div className='commit__block transaction'>
@@ -68,17 +69,17 @@ function Footer() {
       <div className='container footer__info'>
         <div className='info__content'>
           <div className='content__locate'>
-            <img src={phanoLinkLogoColor} alt='brand color logo' />
+            <img src={headerLogo} style={{width:"140px",height:"95px"}} alt='brand color logo' />
             <div className='locate__address'>
-              <p>CÔNG TY CỔ PHẦN DƯỢC PHẨM PHANO</p>
+              <p>CÔNG TY CỔ PHẦN DHTQ</p>
               <Link to='/'>
-                Địa chỉ: 01 Võ Văn Ngân, P.Linh Chiểu, TP.Thủ Đức, TP.HCM
+                Địa chỉ: Quận 12, TP.Thủ Đức, TP.HCM
               </Link>
             </div>
             <div className='locate__contact'>
               <p>MST: 0304860663</p>
-              <Link to='/'>Email: nguyenhuu220800@gmail.com</Link>
-              <Link to='/'>Tel: 0379 339 693</Link>
+              <Link to='/'>Email: huyhoang@gmail.com</Link>
+              <Link to='/'>Tel: 0379 390 009</Link>
             </div>
           </div>
           <div className='content__assist'>
@@ -160,7 +161,7 @@ function Footer() {
               <Link
                 onClick={(e) => {
                   e.preventDefault();
-                  window.open('https://www.facebook.com/garyhuu2000', '_blank');
+                  window.open('', '_blank');
                 }}
                 to='/'
               >
@@ -177,7 +178,7 @@ function Footer() {
         </div>
         <div className='info__license'>
           <p>
-            <span>© 2019</span> - Bản quyền thuộc về Công Ty Dược Phẩm Phano
+            <span>© 2022</span> - Bản quyền thuộc về DHTQ
           </p>
           <img src={bctIcon} alt='BCT logo' />
         </div>

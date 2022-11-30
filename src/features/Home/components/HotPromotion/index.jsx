@@ -7,6 +7,7 @@ import Skeleton from 'react-loading-skeleton';
 import { useInView } from 'react-intersection-observer';
 
 function HotPromotion() {
+
   const [hotPromoList, setHotPromoList] = useState([]);
   const [loading, setLoading] = useState(true);
   const mouted = useRef(true);
@@ -26,15 +27,13 @@ function HotPromotion() {
   // console.log(hotPromoList)
 
   useEffect(() => {
-    // fetch('https://phanolink.herokuapp.com/api/products?feature')
-    //     .then((res) => res.json())
-    //     .then((res) => {setHotPromoList(res.data.slice(0, 9))});
+ 
     mouted.current = true;
     if (!isLoaded.current && inView) {
       (async () => {
         setLoading(true);
         try {
-          const { data } = await productApi.getHotPromo();
+          const data= await productApi.getHotPromo();
           if (mouted.current) setHotPromoList(data.slice(0, 9));
         } catch (error) {
           // console.log(error);
@@ -55,9 +54,9 @@ function HotPromotion() {
           <div className='hot-promotion__top'>
             <div className='hot-promotion__title'>
               <img src={iconHotPromotion} alt='' />
-              <span>Khuyễn Mãi Hot</span>
+              <span>Sản Phẩm Nổi Bật</span>
             </div>
-            <Link to='/product?sort-by-sale=true' className='see-all'>
+            <Link to='/product?sortbysale=true' className='see-all'>
               Xem tất cả &nbsp; &gt;
             </Link>
           </div>
@@ -77,7 +76,7 @@ function HotPromotion() {
                 >
                   <img
                     style={{ height: '283px', objectFit: 'cover' }}
-                    src={item?.images[0]?.url}
+                    src={item?.image}
                     alt=''
                   />
                 </Link>

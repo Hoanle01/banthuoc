@@ -9,6 +9,7 @@ import { openModal } from 'features/Auth/userSlice';
 import { addToCart } from 'features/Cart/cartSlice';
 import withLoading from 'components/HOC/withLoading';
 import userApi from 'api/userApi';
+import ProductItem from '../components/ProductItem';
 
 function ProductDetailPage({ hideLoading, showLoading }) {
   const {
@@ -26,7 +27,7 @@ function ProductDetailPage({ hideLoading, showLoading }) {
       setLoading(true);
       showLoading();
       try {
-        const { data } = await productApi.getProductByID(id);
+        const data = await productApi.getProductByID(id);
         setProduct(data);
       } catch (error) {}
       setLoading(false);
@@ -40,6 +41,7 @@ function ProductDetailPage({ hideLoading, showLoading }) {
       (async function () {
         try {
           const rs = await userApi.getIsFavoriteProduct(id);
+        console.log('id',id)
           if (rs === 'nope') setIsFavorite(false);
           if (rs === 'yes') setIsFavorite(true);
         } catch (error) {}
@@ -81,7 +83,7 @@ function ProductDetailPage({ hideLoading, showLoading }) {
     dispatch(action);
   };
 
-  const isPromo = product?.discount !== 'No';
+  const isPromo = product.discount !== 'No';
   const price = parseInt(product?.price);
   let discountPercent;
   let priceAfterDiscount;
@@ -95,9 +97,10 @@ function ProductDetailPage({ hideLoading, showLoading }) {
       showLoading();
       try {
         const res = await userApi.addFavorites({
-          product_id: product.id,
+          index_product: product.id,
         });
-        if (res.status === 200 && res.success === true) {
+        console.log("sf",res)
+        if (res.status === 200 && res.success=== true) {
           setIsFavorite(true);
           toast.success('Đã yêu thích sản phẩm');
         }
@@ -129,7 +132,7 @@ function ProductDetailPage({ hideLoading, showLoading }) {
               {loading ? (
                 <Skeleton height={420} width={350} />
               ) : (
-                <img src={product?.images[0]?.url || ''} alt='' />
+                <img src={product?.image || ''} alt='' />
               )}
             </div>
             <div className='list'>
@@ -137,9 +140,9 @@ function ProductDetailPage({ hideLoading, showLoading }) {
                 <Skeleton count={3} height={50} width={50} />
               ) : (
                 <Fragment>
-                  <img src={product?.images[0]?.url || ''} alt='' />
-                  <img src={product?.images[0]?.url || ''} alt='' />
-                  <img src={product?.images[0]?.url || ''} alt='' />
+                  <img src={product?.image || ''} alt='' />
+                  <img src={product?.image || ''} alt='' />
+                  <img src={product?.image || ''} alt='' />
                 </Fragment>
               )}
             </div>
@@ -290,6 +293,7 @@ function ProductDetailPage({ hideLoading, showLoading }) {
             ></p>
           )}
         </div>
+      
       </div>
     </div>
   );

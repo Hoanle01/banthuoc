@@ -18,7 +18,7 @@ function AdminUser(props) {
       email: item.email,
       id: item.id,
       name: item.name,
-      phone: item.phone,
+      phone: item.numberPhone,
       birthday: item.birthday || 'Chưa cập nhật',
       gender: item.gender || 3,
       address: item.address

@@ -3,6 +3,7 @@ import adminApi from 'api/adminApi';
 import { statusOrder } from 'constant';
 // import { adminLogout } from 'features/Admin/adminSlice';
 import AdminTable from 'features/Admin/common/AdminTable';
+import moment from 'moment';
 import React, { Fragment, useEffect, useState } from 'react';
 // import { useDispatch } from 'react-redux';
 import EditOrder from './components/EditOrder';
@@ -10,6 +11,7 @@ import EditOrder from './components/EditOrder';
 function AdminOrder() {
   const [orderList, setOrderList] = useState([]);
   const [orderData, setOrderData] = useState([]);
+  console.log("orderData",orderData)
   const [loading, setLoading] = useState(true);
   // const dispatch = useDispatch();
 
@@ -17,7 +19,9 @@ function AdminOrder() {
     setLoading(true);
     try {
       const res = await adminApi.getAllOrder();
-      // console.log(res);
+      
+    
+      
       if (res.status === 200 && res.success) {
         res.data && mapData(res.data);
         res.data && setOrderData(res.data);
@@ -31,34 +35,39 @@ function AdminOrder() {
   };
 
   const mapData = (data) => {
+
+
     if (data && data.length === 0) return;
     const mapOrderList = data.map((item) => {
+ console.log("order", item.userOrder[1].order_detail[0].product_quantity)
       const order = {
-        id: item.id,
-        userName: item.user.name,
-        userPhone: item.user.phone,
+        id: item.userOrder[0].id,
+        userName: item.userOrder[0].user.name,
+        userPhone: item.userOrder[0].user.numberPhone,
         address:
-          item.user.address.street_name +
+        item.userOrder[0].address1.street_name +
           ', ' +
-          item.user.address.ward +
+          item.userOrder[0].address1.ward +
           ', ' +
-          item.user.address.district +
+          item.userOrder[0].address1.district +
           ', ' +
-          item.user.address.province,
-        date_order: item.date_order,
-        count: item.order_details.reduce(
+          item.userOrder[0].address1.province,
+         date_order: item.userOrder[0].updatedAt,
+        count: item.userOrder[1].order_detail.reduce(
           (acc, i) => acc + i.product_quantity,
           0
         ),
-        nameProductTags: item.order_details.map(
+        nameProductTags:item.userOrder[1].order_detail.map(
           (item) =>  {
+            
             // console.log(item.product);
-            return item?.product?.name + ' (x' + item?.product_quantity + ')';
+            return item?.product1?.name + ' (x' + item?.product_quantity + ')';
           }
         ),
-        total: item.total,
-        status: item.status,
+        total: item.userOrder[0].total,
+        status: item.userOrder[0].status,
       };
+      
       return order;
     });
     setOrderList(mapOrderList);
@@ -151,13 +160,12 @@ function AdminOrder() {
       },
       render: (date) => {
         const _date = [
-          new Date(date * 1000).toLocaleTimeString(),
-          new Date(date * 1000).toLocaleDateString(),
+          moment(date).format('DD-MM-YYYY hh:mm:ss')
         ];
         return (
           <Fragment>
             <p style={{ textAlign: 'center' }}>{_date[0]}</p>
-            <p style={{ textAlign: 'center' }}>{_date[1]}</p>
+           
           </Fragment>
         );
       },
@@ -243,7 +251,8 @@ function AdminOrder() {
       title: 'Chi tiết',
       key: 'action',
       render: (i) => {
-        const data = orderData.find((item) => item.id === i.id);
+        const data = orderData.find((item) => item.userOrder[0].id === i.id);
+       
         return <EditOrder data={data} onEdit={() => {}} />;
         // return <EditOrder data={data} onEdit={fetchData} />;
       },

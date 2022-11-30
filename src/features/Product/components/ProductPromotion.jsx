@@ -8,18 +8,14 @@ function ProductPromotion() {
     <div className='produce-promo'>
       <div className='produce-promo__title'>
         <img src={iconHotPromotion} alt='' />
-        <span>Sản Phẩm Khuyến Mãi</span>
+        <span>Hãng Sản Xuất </span>
       </div>
       <div className='produce-promo__list'>
         <div className='produce-promo__item'>
           <img src={hotPromotionItem01} alt='' />
         </div>
-        <div className='produce-promo__item'>
-          <img src={hotPromotionItem03} alt='' />
-        </div>
-        <div className='produce-promo__item'>
-          <img src={hotPromotionItem02} alt='' />
-        </div>
+        
+      
       </div>
     </div>
   );

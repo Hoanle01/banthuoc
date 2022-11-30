@@ -20,12 +20,15 @@ export const cartSlice = createSlice({
       // newItem = { idProduct, quantity }
       const newItem = action.payload;
       if (!state.cartItems) state.cartItems = []
+    
       const index = state.cartItems.findIndex((item) => item.idProduct === newItem.idProduct);
+      
       // if avaiable
       if (index >= 0) state.cartItems[index].quantity += newItem.quantity;
       else state.cartItems.push(newItem);
+      console.log("newItem",newItem)
       localStorage.setItem(getCartNameById(state?.userId), JSON.stringify(state.cartItems));
-    },
+    }, 
     changeToCart (state, action) {
       // newItem = { idProduct, quantity }
       const newItem = action.payload;

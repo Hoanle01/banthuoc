@@ -17,7 +17,8 @@ function UserInformation({ hideLoading, showLoading }) {
     (async function () {
       showLoading();
       try {
-        const { data } = await userApi.getProfile();
+        const {data } = await userApi.getProfile();
+        console.log("ẻ",data)
         setUser(data);
       } catch (error) {
         // console.log(error);
@@ -31,22 +32,24 @@ function UserInformation({ hideLoading, showLoading }) {
     let newData = {
       name: values.name,
       email: values.email,
-      phone: values.phone,
+      numberPhone: values.numberPhone,
       birthday: values.birthday,
       gender: values.gender,
       isChangePassword: false,
     };
-
+   
     if (values.isChangePassword) {
       newData = { ...values };
     }
     showLoading();
     try {
+       console.log('new',newData)
       const { data } = await userApi.updateProfile(newData);
-      setUser(data[0]);
+      
+      setUser(data);
       const user = {
-        name: data[0].name,
-        id: data[0].id,
+        name: data.name,
+        id: data.id,
         access_token: localStorage.getItem(StorageKeys.TOKEN),
       };
       const action = change(user);

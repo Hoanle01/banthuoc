@@ -1,23 +1,24 @@
 const { default: axiosClient } = require('./axiosClient');
 const productApi = {
-  getBanners () {
+    getBanners () {
     const url = '/banners';
     return axiosClient.get(url);
   },
   getHotPromo () {
-    const url = '/products?sale';
+    const url = '/product/sale';
     return axiosClient.get(url);
   },
   getHotProduct () {
-    const url = '/products?feature';
+    const url = '/product/promo';
     return axiosClient.get(url);
   },
-  getProductList (params) {
-    const url = '/products';
-    return axiosClient.get(url, { params: { ...params, perPage: 20, } });
+  getProductList ( params) {
+    const url = '/product';
+    return axiosClient.get(url, { params: { ...params , perPage: 20} });
+
   },
   getProductByID (id) {
-    const url = `/products/${id}`;
+    const url = `/product/${id}`;
     return axiosClient.get(url);
   },
 };

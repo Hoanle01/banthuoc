@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^12.1.10",
     "antd": "^4.16.13",
     "axios": "^0.23.0",
+    "cors": "^2.8.5",
     "draft-js": "^0.11.7",
     "draftjs-to-html": "^0.9.1",
     "moment": "^2.29.1",

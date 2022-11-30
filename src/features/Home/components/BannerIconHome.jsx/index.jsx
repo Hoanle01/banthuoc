@@ -9,7 +9,7 @@ function BannerIconHome() {
     <div className='banner__icon'>
       <div className='icon__item'>
         <img src={customerServiceIcon} alt='customer service logo' />
-        <p>Dược sĩ tư vấn</p>
+        <p>Nhân viên tư vấn</p>
       </div>
       <div className='icon__item'>
         <img src={percentGreenIcon} alt='percent logo' />

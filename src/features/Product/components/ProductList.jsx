@@ -2,10 +2,11 @@ import React from 'react';
 
 import ProductItem from './ProductItem';
 
-function ProductList({ data }) {
+function ProductList( {data }) {
+  console.log(data)
   return (
     <div className='home-product__list'>
-      {data?.map((product) => (
+      {data.map((product) => (
         <ProductItem key={product.id} product={product} />
       ))}
     </div>

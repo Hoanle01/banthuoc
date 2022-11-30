@@ -18,6 +18,7 @@ import { useSelector } from 'react-redux';
 
 function User(props) {
   const isLoggedIn = useSelector((state) => state.user.current);
+
   const { url } = useRouteMatch();
   const { pathname } = useLocation();
   const getTitleHeader = useMemo(() => {

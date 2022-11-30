@@ -1,16 +1,17 @@
+import { Table } from 'antd';
+import moment from 'moment';
 import React from 'react';
 
 function OrderItem({ order }) {
-  console.log(order);
-  const d = new Date(order.dateOder * 1000).toLocaleDateString();
-  const t = new Date(order.dateOder * 1000).toLocaleTimeString();
+   console.log("order",order)
   return (
+   
     <li className='order-item'>
       <span className='code'>{order.id}</span>
       <span className='day'>
-        {t}
-        <br />
-        {d}
+       
+      {  moment(order.dateOrder).format('DD-MM-YYYY hh:mm:ss')}
+      
       </span>
       <p className='order-product'>{order.product}</p>
       <p className='order-address'>{order.address}</p>

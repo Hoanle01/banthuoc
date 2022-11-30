@@ -36,6 +36,7 @@ function ProductPage({hideLoading, showLoading}) {
     showLoading();
     try {
       const result = await productApi.getProductList(queryParams);
+      
       setProductList(result.data);
       setPagination(result.pagination);
     } catch (error) {}
@@ -49,7 +50,7 @@ function ProductPage({hideLoading, showLoading}) {
   }, [queryParams, getData]);
 
   const iSNotFoundProduct = useMemo(() => {
-    return productList.length <= 0;
+    return productList?.length <= 0;
   }, [productList]);
 
   const handleFilterChange = (values) => {
@@ -94,7 +95,7 @@ function ProductPage({hideLoading, showLoading}) {
                 <ProductList data={productList} />
                 <ReactPaginate
                   forcePage={parseInt(queryParams.page) - 1}
-                  pageCount={pagination.totalPages}
+                  pageCount={pagination?.totalPage}
                   onPageChange={handlePageClick}
                   activeClassName='active'
                   containerClassName='product-pagi'

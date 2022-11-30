@@ -64,12 +64,13 @@ function RegisterForm(props) {
           form={form}
           label='Mật Khẩu'
         />
-        <PasswordField
+         <PasswordField
           placeholder='Mật khẩu từ 6 đến 32 ký tự'
           name='password_confirmation'
           form={form}
           label='Nhập Lại Mật Khẩu'
         />
+        
         <InputField
           placeholder='Nhập số điện thoại'
           name='phone'

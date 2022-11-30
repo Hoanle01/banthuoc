@@ -26,7 +26,7 @@ function BannerSlide() {
       (async () => {
         setLoading(true);
         try {
-          const { data } = await productApi.getBanners();
+          const  data  = await productApi.getBanners();
           setBannerList(data);
           setLoading(false);
         } catch (error) {
@@ -45,7 +45,7 @@ function BannerSlide() {
       </div>
       {bannerList.map((item) => (
         <div key={item?.name} className='slider__item'>
-          <img src={item?.image?.url} alt='' />
+          <img src={item?.image} alt='' />
         </div>
       ))}
     </Slider>

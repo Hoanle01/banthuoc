@@ -14,10 +14,10 @@ function CartItem({ item, onChange, hideLoading, showLoading }) {
   const isPromo = product?.discount !== 'No';
   const price = parseInt(product?.price);
   let discountPercent;
-  let priceAfterDiscount;
+  let pricesAfterDiscount;
   if (isPromo) {
     discountPercent = parseInt(product?.discount?.slice(0, -1)) / 100;
-    priceAfterDiscount = parseInt(price) - parseInt(price) * discountPercent;
+    pricesAfterDiscount = parseInt(price) - parseInt(price) * discountPercent;
   }
   const handleButtonDeleteClick = () => {
     // console.log(product.id);
@@ -28,6 +28,7 @@ function CartItem({ item, onChange, hideLoading, showLoading }) {
   const handleQuantityChange = (value) => {
     if (!onChange) return;
     onChange(item.idProduct, value);
+    
   };
 
   useEffect(() => {
@@ -35,8 +36,9 @@ function CartItem({ item, onChange, hideLoading, showLoading }) {
       setLoading(true);
       showLoading();
       try {
-        const { data } = await productApi.getProductByID(item.idProduct);
+        const data  = await productApi.getProductByID(item.idProduct);
         setProduct(data);
+        
       } catch (error) {
         console.log(error);
       }
@@ -52,7 +54,7 @@ function CartItem({ item, onChange, hideLoading, showLoading }) {
         <Skeleton height={65} width={55} />
       ) : (
         <Link to={`/product/${item.idProduct}`}>
-          <img src={product?.images[0]?.url} alt='' />
+          <img src={product?.image} alt='' />
         </Link>
       )}
       <div className='item__info'>
@@ -82,8 +84,8 @@ function CartItem({ item, onChange, hideLoading, showLoading }) {
           ) : (
             <Fragment>
               <p className='price__new'>
-                {isPromo && priceAfterDiscount
-                  ? (priceAfterDiscount * item.quantity).toLocaleString(
+                {isPromo && pricesAfterDiscount
+                  ? (pricesAfterDiscount * item.quantity).toLocaleString(
                       'it-IT',
                       {
                         style: 'currency',

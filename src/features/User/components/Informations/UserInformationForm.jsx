@@ -16,7 +16,7 @@ function UserInformationForm(props) {
       .string()
       .required('Please enter your email')
       .email('Please enter a valid email'),
-    phone: yup
+    numberPhone: yup
       .string()
       .required('Please enter your phone number')
       .matches(/^(0[3|5|7|8|9])+([0-9]{8})$/, 'Phone number is not valid'),
@@ -58,7 +58,7 @@ function UserInformationForm(props) {
       form.reset({
         name: user.name,
         email: user.email,
-        phone: user.phone,
+        numberPhone: user.numberPhone,
         gender: user.gender,
         birthday: user.birthday,
         isChangePassword: false,
@@ -67,6 +67,7 @@ function UserInformationForm(props) {
   }, [user]);
 
   const handleSubmit = (values) => {
+    console.log(values)
     if (!onSubmit) return;
     onSubmit(values);
   };
@@ -91,7 +92,7 @@ function UserInformationForm(props) {
       <div className='left'>
         <InputField name='name' form={form} label='Họ Tên' />
         <InputField name='email' form={form} label='Email' />
-        <InputField name='phone' form={form} label='Số điện thoại' />
+        <InputField name='numberPhone' form={form} label='Số điện thoại' />
         <GenderField name='gender' form={form} label='Giới tính' />
         <InputField name='birthday' type='date' form={form} label='Ngày Sinh' />
       </div>
